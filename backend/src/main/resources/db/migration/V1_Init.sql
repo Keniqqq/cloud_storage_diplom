@@ -1,0 +1,22 @@
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    login VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE tokens (
+    id BIGSERIAL PRIMARY KEY,
+    token_value VARCHAR(255) UNIQUE NOT NULL,
+    user_id BIGINT NOT NULL,
+    active BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE files (
+    id BIGSERIAL PRIMARY KEY,
+    filename VARCHAR(255) NOT NULL,
+    size BIGINT NOT NULL,
+    path VARCHAR(500) NOT NULL,
+    user_id BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
