@@ -2,7 +2,7 @@
 
 --------------------
 
-## Cloude Store
+## Cloude Storage
 
 Schema of _project_
 ```
