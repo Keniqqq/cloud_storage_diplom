@@ -1,3 +1,8 @@
+logging:
+  level:
+    ru.netology: DEBUG
+    org.springframework.security: INFO
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/cloudstorage

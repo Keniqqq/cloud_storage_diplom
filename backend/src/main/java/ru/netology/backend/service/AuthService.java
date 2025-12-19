@@ -2,7 +2,10 @@ package ru.netology.backend.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.netology.backend.exception.UnauthorizedException;
 import ru.netology.backend.model.Token;
+import ru.netology.backend.exception.InvalidCredentialsException;
+import ru.netology.backend.exception.UserNotFoundException;
 import ru.netology.backend.model.User;
 import ru.netology.backend.repository.TokenRepository;
 import ru.netology.backend.repository.UserRepository;
@@ -22,11 +25,10 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public String login(String login, String password) {
-        User user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public String login(String login, String password) throws InvalidCredentialsException {
+        User user = userRepository.findByLogin(login).orElseThrow(() -> new RuntimeException("User not found"));
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new InvalidCredentialsException("Invalid credentials");
         }
         String token = jwtService.generateToken(login);
         Token tokenEntity = new Token();
@@ -36,9 +38,9 @@ public class AuthService {
         return token;
     }
 
-    public void logout(String token) {
+    public void logout(String token) throws UnauthorizedException {
         Token tokenEntity = tokenRepository.findByTokenValueAndActiveTrue(token)
-                .orElseThrow(() -> new RuntimeException("Token not found"));
+                .orElseThrow(() -> new UnauthorizedException("Token not found"));
         tokenEntity.setActive(false);
         tokenRepository.save(tokenEntity);
     }

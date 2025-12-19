@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.backend.repository.FileRepository;
 
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 class FileServiceTest {
     @Mock
@@ -16,7 +18,8 @@ class FileServiceTest {
     private FileService fileService;
 
     @Test
-    void shouldSaveFile() {
-
+    void shouldListFiles() {
+        fileService.listFiles(1L);
+        verify(fileRepository).findByUserId(1L);
     }
 }
