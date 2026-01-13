@@ -8,4 +8,11 @@ public class LoginRequest {
     public String getPassword() {
         return null;
     }
+
+    public void setPassword(String password) {
+    }
+
+    public void setLogin(String user) {
+
+    }
 }
